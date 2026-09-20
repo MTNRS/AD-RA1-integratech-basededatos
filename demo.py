@@ -3,7 +3,7 @@
 import shutil
 from pathlib import Path
 
-from basededatos import JocarsaBaseDatos
+from basededatos import IntegraBaseDatos
 
 
 def ejecutar_demo():
@@ -14,7 +14,7 @@ def ejecutar_demo():
     if ruta_exportacion.exists():
         shutil.rmtree(ruta_exportacion)
 
-    conexion = JocarsaBaseDatos(ruta_datos)
+    conexion = IntegraBaseDatos(ruta_datos)
     conexion.crear_basededatos("integratech")
     conexion.crear_tabla("clientes", ["nombre", "sector", "correo", "estado"])
 
@@ -51,4 +51,3 @@ def ejecutar_demo():
 
 if __name__ == "__main__":
     ejecutar_demo()
-

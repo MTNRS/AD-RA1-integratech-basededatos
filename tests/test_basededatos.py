@@ -3,14 +3,14 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from basededatos import JocarsaBaseDatos
+from basededatos import IntegraBaseDatos
 
 
-class PruebasJocarsaBaseDatos(unittest.TestCase):
+class PruebasIntegraBaseDatos(unittest.TestCase):
     def setUp(self):
         self.temporal = tempfile.TemporaryDirectory()
         self.ruta = Path(self.temporal.name)
-        self.conexion = JocarsaBaseDatos(self.ruta / "datos")
+        self.conexion = IntegraBaseDatos(self.ruta / "datos")
         self.conexion.crear_basededatos("empresa")
         self.conexion.crear_tabla("clientes", ["nombre", "estado"])
 
@@ -48,7 +48,7 @@ class PruebasJocarsaBaseDatos(unittest.TestCase):
         contenido = json.loads(destino.read_text(encoding="utf-8"))
         self.assertEqual(contenido["tablas"]["clientes"][0]["nombre"], "Cliente Uno")
 
-        otra = JocarsaBaseDatos(self.ruta / "importadas")
+        otra = IntegraBaseDatos(self.ruta / "importadas")
         otra.importar_json(destino, "empresa_copia")
         self.assertEqual(otra.listar("clientes")[0]["estado"], "activo")
 
@@ -63,4 +63,3 @@ class PruebasJocarsaBaseDatos(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

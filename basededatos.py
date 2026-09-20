@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 
 
-class JocarsaBaseDatos:
+class IntegraBaseDatos:
     """Gestiona bases de datos formadas por carpetas y ficheros CSV."""
 
     def __init__(self, instalacion="datos"):
@@ -146,4 +146,3 @@ class JocarsaBaseDatos:
             for registro in registros:
                 datos = {campo: registro.get(campo, "") for campo in campos}
                 self.insertar(nombre_tabla, datos)
-

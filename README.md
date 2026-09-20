@@ -1,8 +1,9 @@
-# Base de datos personalizada jocarsa | basededatos
+# Integra Tech | basededatos
 
 Proyecto práctico del RA1 de **0486 - Acceso a datos**. La aplicación gestiona
-información mediante carpetas y ficheros CSV, siguiendo la evolución de la
-clase `JocarsaBBDD` utilizada en los ejercicios de la unidad.
+información mediante carpetas y ficheros CSV. Parte de la clase `JocarsaBBDD`
+utilizada como ejemplo en la unidad y aplica lo aprendido a un producto propio
+de **Integra Tech Consulting**.
 
 ## Objetivo
 
@@ -14,7 +15,7 @@ Crear una base de datos sencilla en la que:
 - los registros puedan insertarse, listarse y buscarse;
 - toda la base de datos pueda convertirse a JSON y recuperarse después.
 
-Como caso práctico se utiliza un pequeño registro local de clientes y proyectos
+El producto permite mantener un pequeño registro local de clientes y proyectos
 ficticios de **Integra Tech Consulting**. No contiene datos internos ni datos de
 clientes reales.
 
@@ -23,7 +24,7 @@ clientes reales.
 ```text
 .
 ├── app.py                    Aplicación de consola
-├── basededatos.py            Clase JocarsaBaseDatos
+├── basededatos.py            Clase IntegraBaseDatos
 ├── demo.py                   Demostración automática
 ├── tests/
 │   └── test_basededatos.py   Pruebas de ficheros, datos, JSON y errores
@@ -73,10 +74,11 @@ las búsquedas recorren el fichero completo y no ofrece relaciones, bloqueos ni
 consultas complejas. Por ello este proyecto es educativo y no sustituye la base
 de datos de producción de Integra Tech Consulting.
 
-La posible aplicación empresarial sería una herramienta local de importación y
-exportación para conjuntos pequeños de datos. Antes de integrarla habría que
-adaptarla a los modelos, permisos y validaciones del sistema real y probarla en
-un entorno aislado.
+La aplicación empresarial propuesta es una herramienta local de importación,
+exportación y consulta de conjuntos pequeños de datos. Puede servir para crear
+copias portables o preparar datos antes de incorporarlos a la plataforma. Antes
+de integrarla hay que adaptarla a los modelos, permisos y validaciones del
+sistema real y probarla en un entorno aislado.
 
 ## Uso de IA
 
@@ -99,4 +101,3 @@ realizar al menos una modificación propia y ser capaz de explicar:
 La entrega definitiva debe incluir `INFORME.md`, generado mediante la herramienta
 oficial `jocarsa-documentacion.py`. La herramienta no está instalada actualmente
 en este equipo; se generará el informe cuando se facilite su ubicación oficial.
-

@@ -1,6 +1,6 @@
 """Aplicación de consola para gestionar datos ficticios de Integra Tech."""
 
-from basededatos import JocarsaBaseDatos
+from basededatos import IntegraBaseDatos
 
 
 def preparar_basededatos(conexion):
@@ -43,11 +43,11 @@ def buscar_cliente(conexion):
 
 
 def menu():
-    conexion = JocarsaBaseDatos()
+    conexion = IntegraBaseDatos()
     preparar_basededatos(conexion)
 
     while True:
-        print("\nJOCARSA | BASEDEDATOS · INTEGRA TECH")
+        print("\nINTEGRA TECH | BASEDEDATOS")
         print("1. Listar clientes")
         print("2. Añadir cliente")
         print("3. Buscar cliente")
@@ -76,4 +76,3 @@ def menu():
 
 if __name__ == "__main__":
     menu()
-
