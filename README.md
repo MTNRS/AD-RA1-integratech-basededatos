@@ -98,6 +98,7 @@ realizar al menos una modificación propia y ser capaz de explicar:
 
 ## Informe final
 
-La entrega definitiva debe incluir `INFORME.md`, generado mediante la herramienta
-oficial `jocarsa-documentacion.py`. La herramienta no está instalada actualmente
-en este equipo; se generará el informe cuando se facilite su ubicación oficial.
+La entrega incluye [`INFORME.md`](INFORME.md), generado con la herramienta
+`jocarsa | documentación` incluida en los materiales del curso. Para evitar
+contenido innecesario, se ha generado desde una copia limpia de los archivos
+versionados, sin `.git`, cachés, datos temporales ni librerías externas.
