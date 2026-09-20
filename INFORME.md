@@ -12,9 +12,11 @@ identificando su campo de aplicación y utilizando clases específicas.
 ## Descripción
 
 La aplicación administra pequeñas colecciones de clientes y proyectos ficticios
-de Integra Tech Consulting. Cada base de datos se representa mediante una carpeta
-y cada tabla mediante un fichero CSV. También permite convertir la información a
-JSON y recuperarla posteriormente.
+de Integra Tech Consulting. Su modelo reducido parte de las tablas `clients` y
+`projects` del repositorio privado real `IntTecCon/integra-tech-platform`, revisión
+`fb82959`. Cada base de datos se representa mediante una carpeta y cada tabla
+mediante un fichero CSV. También permite convertir la información a JSON y
+recuperarla posteriormente, sin conectarse ni modificar la producción.
 
 Este informe se ha generado con la herramienta **jocarsa | documentación** incluida
 en los materiales del curso. La generación se realiza desde una copia limpia de
@@ -52,10 +54,12 @@ def preparar_basededatos(conexion):
     except FileNotFoundError:
         conexion.crear_basededatos("integratech")
         conexion.crear_tabla(
-            "clientes", ["nombre", "sector", "correo", "estado"]
+            "clientes",
+            ["nombre", "contacto", "correo", "telefono", "sector", "estado"],
         )
         conexion.crear_tabla(
-            "proyectos", ["cliente", "nombre", "servicio", "estado"]
+            "proyectos",
+            ["cliente_id", "nombre", "descripcion", "estado", "prioridad", "valor"],
         )
 
 
@@ -70,8 +74,10 @@ def insertar_cliente(conexion):
     print("\nNuevo cliente ficticio")
     datos = {
         "nombre": input("Nombre: ").strip(),
-        "sector": input("Sector: ").strip(),
+        "contacto": input("Persona de contacto: ").strip(),
         "correo": input("Correo: ").strip(),
+        "telefono": input("Teléfono: ").strip(),
+        "sector": input("Sector: ").strip(),
         "estado": input("Estado: ").strip(),
     }
     if not all(datos.values()):
@@ -295,24 +301,46 @@ def ejecutar_demo():
 
     conexion = IntegraBaseDatos(ruta_datos)
     conexion.crear_basededatos("integratech")
-    conexion.crear_tabla("clientes", ["nombre", "sector", "correo", "estado"])
+    conexion.crear_tabla(
+        "clientes",
+        ["nombre", "contacto", "correo", "telefono", "sector", "estado"],
+    )
+    conexion.crear_tabla(
+        "proyectos",
+        ["cliente_id", "nombre", "descripcion", "estado", "prioridad", "valor"],
+    )
 
     conexion.insertar(
         "clientes",
         {
             "nombre": "Taller Mediterráneo",
-            "sector": "Automoción",
+            "contacto": "Ana Pérez",
             "correo": "contacto@example.com",
-            "estado": "activo",
+            "telefono": "600000001",
+            "sector": "Automoción",
+            "estado": "Activo",
         },
     )
     conexion.insertar(
         "clientes",
         {
             "nombre": "Estudio Turia",
-            "sector": "Fotografía",
+            "contacto": "Luis Serra",
             "correo": "hola@example.com",
-            "estado": "potencial",
+            "telefono": "600000002",
+            "sector": "Fotografía",
+            "estado": "Potencial",
+        },
+    )
+    conexion.insertar(
+        "proyectos",
+        {
+            "cliente_id": "1",
+            "nombre": "Portal de citas",
+            "descripcion": "Prototipo web para organizar reservas",
+            "estado": "Pendiente",
+            "prioridad": "Media",
+            "valor": "1200",
         },
     )
 
@@ -353,8 +381,30 @@ Crear una base de datos sencilla en la que:
 - toda la base de datos pueda convertirse a JSON y recuperarse después.
 
 El producto permite mantener un pequeño registro local de clientes y proyectos
-ficticios de **Integra Tech Consulting**. No contiene datos internos ni datos de
-clientes reales.
+ficticios de **Integra Tech Consulting**. El modelo se ha obtenido del repositorio
+real privado `IntTecCon/integra-tech-platform`, revisión `fb82959`, en concreto de
+las tablas `clients` y `projects` definidas en `backend/app.py`. No contiene datos
+internos ni datos de clientes reales.
+
+## Relación con el proyecto real
+
+La plataforma real utiliza FastAPI, PostgreSQL y las tablas `clients` y
+`projects`. Esta práctica conserva, con nombres didácticos en español, los campos
+principales que resultan útiles para el RA:
+
+| Plataforma real | Práctica con ficheros |
+|---|---|
+| `clients.name` | `clientes.nombre` |
+| `clients.contact_name` | `clientes.contacto` |
+| `clients.email`, `phone` | `clientes.correo`, `telefono` |
+| `clients.industry`, `status` | `clientes.sector`, `estado` |
+| `projects.client_id` | `proyectos.cliente_id` |
+| `projects.name`, `description` | `proyectos.nombre`, `descripcion` |
+| `projects.status`, `priority`, `value` | `proyectos.estado`, `prioridad`, `valor` |
+
+La clase de almacenamiento no se conecta a la base de datos de producción. Es
+una adaptación aislada en CSV y JSON para practicar el RA1 sin modificar ni
+exponer información real.
 
 ## Estructura
 
@@ -411,11 +461,10 @@ las búsquedas recorren el fichero completo y no ofrece relaciones, bloqueos ni
 consultas complejas. Por ello este proyecto es educativo y no sustituye la base
 de datos de producción de Integra Tech Consulting.
 
-La aplicación empresarial propuesta es una herramienta local de importación,
-exportación y consulta de conjuntos pequeños de datos. Puede servir para crear
-copias portables o preparar datos antes de incorporarlos a la plataforma. Antes
-de integrarla hay que adaptarla a los modelos, permisos y validaciones del
-sistema real y probarla en un entorno aislado.
+La aplicación empresarial propuesta es un prototipo local de portabilidad de
+datos. Toma como referencia el modelo de clientes y proyectos de la plataforma,
+pero no se conecta a su API ni a PostgreSQL. Una integración futura necesitaría
+autenticación, permisos, validación del esquema y pruebas en un entorno aislado.
 
 ## Uso de IA
 
@@ -504,6 +553,25 @@ class PruebasIntegraBaseDatos(unittest.TestCase):
         otra = IntegraBaseDatos(self.ruta / "importadas")
         otra.importar_json(destino, "empresa_copia")
         self.assertEqual(otra.listar("clientes")[0]["estado"], "activo")
+
+    def test_modelo_reducido_de_proyectos_integratech(self):
+        self.conexion.crear_tabla(
+            "proyectos",
+            ["cliente_id", "nombre", "descripcion", "estado", "prioridad", "valor"],
+        )
+        proyecto = self.conexion.insertar(
+            "proyectos",
+            {
+                "cliente_id": "1",
+                "nombre": "Portal de citas",
+                "descripcion": "Proyecto ficticio",
+                "estado": "Pendiente",
+                "prioridad": "Media",
+                "valor": "1200",
+            },
+        )
+        self.assertEqual(proyecto["cliente_id"], "1")
+        self.assertEqual(proyecto["prioridad"], "Media")
 
     def test_gestiona_errores_de_nombres_y_campos(self):
         with self.assertRaises(ValueError):

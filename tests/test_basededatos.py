@@ -52,6 +52,25 @@ class PruebasIntegraBaseDatos(unittest.TestCase):
         otra.importar_json(destino, "empresa_copia")
         self.assertEqual(otra.listar("clientes")[0]["estado"], "activo")
 
+    def test_modelo_reducido_de_proyectos_integratech(self):
+        self.conexion.crear_tabla(
+            "proyectos",
+            ["cliente_id", "nombre", "descripcion", "estado", "prioridad", "valor"],
+        )
+        proyecto = self.conexion.insertar(
+            "proyectos",
+            {
+                "cliente_id": "1",
+                "nombre": "Portal de citas",
+                "descripcion": "Proyecto ficticio",
+                "estado": "Pendiente",
+                "prioridad": "Media",
+                "valor": "1200",
+            },
+        )
+        self.assertEqual(proyecto["cliente_id"], "1")
+        self.assertEqual(proyecto["prioridad"], "Media")
+
     def test_gestiona_errores_de_nombres_y_campos(self):
         with self.assertRaises(ValueError):
             self.conexion.crear_tabla("../privada", ["nombre"])

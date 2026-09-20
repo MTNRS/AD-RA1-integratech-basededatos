@@ -16,24 +16,46 @@ def ejecutar_demo():
 
     conexion = IntegraBaseDatos(ruta_datos)
     conexion.crear_basededatos("integratech")
-    conexion.crear_tabla("clientes", ["nombre", "sector", "correo", "estado"])
+    conexion.crear_tabla(
+        "clientes",
+        ["nombre", "contacto", "correo", "telefono", "sector", "estado"],
+    )
+    conexion.crear_tabla(
+        "proyectos",
+        ["cliente_id", "nombre", "descripcion", "estado", "prioridad", "valor"],
+    )
 
     conexion.insertar(
         "clientes",
         {
             "nombre": "Taller Mediterráneo",
-            "sector": "Automoción",
+            "contacto": "Ana Pérez",
             "correo": "contacto@example.com",
-            "estado": "activo",
+            "telefono": "600000001",
+            "sector": "Automoción",
+            "estado": "Activo",
         },
     )
     conexion.insertar(
         "clientes",
         {
             "nombre": "Estudio Turia",
-            "sector": "Fotografía",
+            "contacto": "Luis Serra",
             "correo": "hola@example.com",
-            "estado": "potencial",
+            "telefono": "600000002",
+            "sector": "Fotografía",
+            "estado": "Potencial",
+        },
+    )
+    conexion.insertar(
+        "proyectos",
+        {
+            "cliente_id": "1",
+            "nombre": "Portal de citas",
+            "descripcion": "Prototipo web para organizar reservas",
+            "estado": "Pendiente",
+            "prioridad": "Media",
+            "valor": "1200",
         },
     )
 

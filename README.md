@@ -16,8 +16,30 @@ Crear una base de datos sencilla en la que:
 - toda la base de datos pueda convertirse a JSON y recuperarse después.
 
 El producto permite mantener un pequeño registro local de clientes y proyectos
-ficticios de **Integra Tech Consulting**. No contiene datos internos ni datos de
-clientes reales.
+ficticios de **Integra Tech Consulting**. El modelo se ha obtenido del repositorio
+real privado `IntTecCon/integra-tech-platform`, revisión `fb82959`, en concreto de
+las tablas `clients` y `projects` definidas en `backend/app.py`. No contiene datos
+internos ni datos de clientes reales.
+
+## Relación con el proyecto real
+
+La plataforma real utiliza FastAPI, PostgreSQL y las tablas `clients` y
+`projects`. Esta práctica conserva, con nombres didácticos en español, los campos
+principales que resultan útiles para el RA:
+
+| Plataforma real | Práctica con ficheros |
+|---|---|
+| `clients.name` | `clientes.nombre` |
+| `clients.contact_name` | `clientes.contacto` |
+| `clients.email`, `phone` | `clientes.correo`, `telefono` |
+| `clients.industry`, `status` | `clientes.sector`, `estado` |
+| `projects.client_id` | `proyectos.cliente_id` |
+| `projects.name`, `description` | `proyectos.nombre`, `descripcion` |
+| `projects.status`, `priority`, `value` | `proyectos.estado`, `prioridad`, `valor` |
+
+La clase de almacenamiento no se conecta a la base de datos de producción. Es
+una adaptación aislada en CSV y JSON para practicar el RA1 sin modificar ni
+exponer información real.
 
 ## Estructura
 
@@ -74,11 +96,10 @@ las búsquedas recorren el fichero completo y no ofrece relaciones, bloqueos ni
 consultas complejas. Por ello este proyecto es educativo y no sustituye la base
 de datos de producción de Integra Tech Consulting.
 
-La aplicación empresarial propuesta es una herramienta local de importación,
-exportación y consulta de conjuntos pequeños de datos. Puede servir para crear
-copias portables o preparar datos antes de incorporarlos a la plataforma. Antes
-de integrarla hay que adaptarla a los modelos, permisos y validaciones del
-sistema real y probarla en un entorno aislado.
+La aplicación empresarial propuesta es un prototipo local de portabilidad de
+datos. Toma como referencia el modelo de clientes y proyectos de la plataforma,
+pero no se conecta a su API ni a PostgreSQL. Una integración futura necesitaría
+autenticación, permisos, validación del esquema y pruebas en un entorno aislado.
 
 ## Uso de IA
 

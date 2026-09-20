@@ -9,10 +9,12 @@ def preparar_basededatos(conexion):
     except FileNotFoundError:
         conexion.crear_basededatos("integratech")
         conexion.crear_tabla(
-            "clientes", ["nombre", "sector", "correo", "estado"]
+            "clientes",
+            ["nombre", "contacto", "correo", "telefono", "sector", "estado"],
         )
         conexion.crear_tabla(
-            "proyectos", ["cliente", "nombre", "servicio", "estado"]
+            "proyectos",
+            ["cliente_id", "nombre", "descripcion", "estado", "prioridad", "valor"],
         )
 
 
@@ -27,8 +29,10 @@ def insertar_cliente(conexion):
     print("\nNuevo cliente ficticio")
     datos = {
         "nombre": input("Nombre: ").strip(),
-        "sector": input("Sector: ").strip(),
+        "contacto": input("Persona de contacto: ").strip(),
         "correo": input("Correo: ").strip(),
+        "telefono": input("Teléfono: ").strip(),
+        "sector": input("Sector: ").strip(),
         "estado": input("Estado: ").strip(),
     }
     if not all(datos.values()):
